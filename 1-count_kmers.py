@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
 """
-Created on Mon Sep 27 04:54:02 2021
+Updated on 2022-04-02
 
-@author: Dakforz Chang (400076414)
+@author: Dakforz Chang 
 """
 
 
@@ -10,8 +9,8 @@ from Bio import SeqIO
 import sys #since this program use spyder, the argument is stored in run-configuration per file function
 
 try:
- seqFile = open(sys.argv[1],"r")  #try for first argument - sequences.fastaq
- seqIOObject = SeqIO.parse(seqFile, sys.argv[3]) #try for third argument - fastaq
+ seqFile = open(sys.argv[1],"r")  #try for first argument - sequences.fastq
+ seqIOObject = SeqIO.parse(seqFile, sys.argv[3]) #try for third argument - fastq 
  
 except IOError:
  print("Could not open the file!") #confirm first argument is exist
@@ -34,13 +33,13 @@ Filehandle= open("result.txt","w") #write the following graph in result file
 space = " " #help with formating 
 Filehandle.writelines("%s %s %s\n" % ("sequence(s)",space*(kmer-4),"count(s)")) #this is the title of the graph;space*(kmer-4) will locate in the center  
 
-for record in seqIOObject: #ths read each line of sequences.fastaq and then anaylze each line
+for record in seqIOObject: #ths read each line of sequences.fastq and then anaylze each line
     seq =record.seq #only get the sequence information
     n= 0 #ths is used for tracking kmer's number (n-k+1)
   
     while kmer+n <= int(len(seq)):  #this make sure each kmers do not exceed its assign number
         newstring = seq[0+n:kmer+n] #this specify the sequences's kmer using the range
-        
+        #print(kmer+n, len(seq),newstring)
         if newstring in kmers:  #this check for kmer replication
             location = int(kmers.index(newstring)) #this check the replication index location
             existingnum = kmersnum[location] #this read the existing replication number (since it may be larger than 1)
@@ -54,7 +53,7 @@ for record in seqIOObject: #ths read each line of sequences.fastaq and then anay
     
        
 for writein in range(len(kmers)): #this line just write the list into file 
-     Filehandle.writelines("%s\t %s\n" % (kmers[writein],kmersnum[writein]))
+     Filehandle.writelines("%s %s %s\n" % (kmers[writein],space*(kmer-8),kmersnum[writein]))
 
 
 seqFile.close() #close the references sequence file 
